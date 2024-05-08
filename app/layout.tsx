@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "./css/bootstrap.min.css"
+import "./css/animate.css"
+import "./css/select2.min.css"
+import "./css/bootstrap-datepicker.min.css"
+import "./css/dataTables.bootstrap5.min.css"
+import Header from "../components/shared/header";
+import Sidebar from "../components/shared/sidebar";
+// import "./css/all.min.css"
+// import "./css/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +24,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <head>
+    <link rel="stylesheet" href="/css/style.css" />
+    </head>
+      <body className={inter.className}>
+          <div className="main-wrapper">
+            <Header />
+            <Sidebar />
+            <div className="page-wrapper" style={{minHeight: '377px'}}>
+              {children}
+            </div>
+          </div>
+      </body>
     </html>
   );
 }
