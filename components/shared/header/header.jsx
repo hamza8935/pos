@@ -3,158 +3,121 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from './header.module.css'
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { useState } from "react";
-export default function Header({ openSidebar, closeSideBar, toggleClose, isOpen }) {
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import { navbarToggleBtn, toggleMobileScreenSidebar } from "@/app/redux/slice";
+
+export default function Header() {
+
+    const dispatch = useDispatch();
+    const toggleHeaderSidebar = useSelector((state) => state.counterReducer.onToggleHeaderSidebarClose)
+    const mobileSidebar = useSelector((state) => state.counterReducer.mobileSidebar)
+
+
     const [closeProfile, setcloseProfile] = useState(false)
-    // const [isOpen, setisOpen] = useState(true)
-    // function toggleClose() {
-    //     setisOpen(!isOpen)
-    // }
+    const [fullScreenMode, setfullScreenMode] = useState(false)
+    const [closwMobileScreenUserProfile, setcloswMobileScreenUserProfile] = useState(false)
+
+
+    function showMobileScreenUserProfile() {
+
+        setcloswMobileScreenUserProfile(!closwMobileScreenUserProfile)
+    }
+
     function showProfile() {
         setcloseProfile(!closeProfile)
     }
+
+    function toggleBtn() {
+        dispatch(navbarToggleBtn());
+    }
+
+    function openSidebar() {
+        dispatch(toggleMobileScreenSidebar())
+    }
+
+    const handleClickOutsideProfile = (event) => {
+        const profileMenu = document.getElementById('profileMenu');
+        const mobilrprofileMenu = document.getElementById('mobilrprofileMenu');
+
+        if (profileMenu && !profileMenu.contains(event.target)) {
+            setcloseProfile(false);
+        }
+        if (mobilrprofileMenu && !mobilrprofileMenu.contains(event.target)) {
+            setcloswMobileScreenUserProfile(false);
+        }
+
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutsideProfile);
+        return () => {
+            document.removeEventListener('click', handleClickOutsideProfile);
+        };
+    }, [closeProfile, closwMobileScreenUserProfile]);
+
+    function toggleFullScreenMode() {
+        if (!fullScreenMode) {
+            enterFullscreen();
+        } else {
+            exitFullscreen();
+        }
+    }
+
+    const enterFullscreen = () => {
+        const element = document.documentElement;
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        }
+        setfullScreenMode(true);
+    };
+    const exitFullscreen = () => {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+        setfullScreenMode(false);
+    };
     return (
-        //       <div className="header">
-
-        //         <div className="header-left active">
-        //           <Link href="/" className="logo logo-normal">
-        //             <img src="/img/logo.png" alt="" />
-        //           </Link>
-        //           <Link href="/" className="logo-small">
-        //             <img src="/img/logo-small.png" alt="" />
-        //           </Link>
-        //           <Linkid="toggle_btn" href="javascript:void(0);">
-        //             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        //                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        //                  className="feather feather-chevrons-left feather-16">
-        //               <polyline points="11 17 6 12 11 7"></polyline>
-        //               <polyline points="18 17 13 12 18 7"></polyline>
-        //             </svg>
-        //           </a>
-        //         </div>
-
-        //         <Linkid="mobile_btn" className="mobile_btn" href="#sidebar">
-        //             <span className="bar-icon">
-        //             <span></span>
-        //             <span></span>
-        //             <span></span>
-        //             </span>
-        //         </a>
-
-        //         <ul className="nav user-menu">
-
-        //           <li className="nav-item nav-searchinputs">
-        //             <div className="top-nav-search">
-        //             </div>
-        //           </li>
-
-
-        //           <li className="nav-item dropdown has-arrow main-drop select-store-dropdown">
-        //           </li>
-
-
-        //           <li className="nav-item dropdown has-arrow flag-nav nav-item-box">
-        //           </li>
-
-        //           <li className="nav-item nav-item-box">
-        //             <Linkhref="javascript:void(0);" id="btnFullscreen">
-        //               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        //                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        //                    className="feather feather-maximize">
-        //                 <path
-        //                     d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-        //               </svg>
-        //             </a>
-        //           </li>
-
-        //           <li className="nav-item dropdown has-arrow main-drop">
-        //             <Link href="/" className="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-        // <span className="user-info">
-        // <span className="user-letter">
-        // <img src="assets/img/profiles/avator1.jpg" alt="" className="img-fluid" />
-        // </span>
-        // <span className="user-detail">
-        // <span className="user-name">John Smilga</span>
-        // <span className="user-role">Super Admin</span>
-        // </span>
-        // </span>
-        //             </Link>
-        //             <div className="dropdown-menu menu-drop-user">
-        //               <div className="profilename">
-        //                 <div className="profileset">
-        // <span className="user-img"><img src="assets/img/profiles/avator1.jpg" alt="" />
-        // <span className="status online"></span></span>
-        //                   <div className="profilesets">
-        //                     <h6>John Smilga</h6>
-        //                     <h5>Super Admin</h5>
-        //                   </div>
-        //                 </div>
-        //                 <hr className="m-0" />
-        //                 <LinkclassName="dropdown-item" href="profile.html">
-        //                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        //                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        //                        className="feather feather-user me-2">
-        //                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-        //                     <circle cx="12" cy="7" r="4"></circle>
-        //                   </svg>
-        //                   My
-        //                   Profile</a>
-        //                 <LinkclassName="dropdown-item" href="general-settings.html">
-        //                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        //                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        //                        className="feather feather-settings me-2">
-        //                     <circle cx="12" cy="12" r="3"></circle>
-        //                     <path
-        //                         d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-        //                   </svg>
-        //                   Settings</a>
-        //                 <hr className="m-0" />
-        //                 <LinkclassName="dropdown-item logout pb-0" href="signin.html"><img
-        //                     src="assets/img/icons/log-out.svg" className="me-2" alt="img" />Logout</a>
-        //               </div>
-        //             </div>
-        //           </li>
-        //         </ul>
-
-
-        //         <div className="dropdown mobile-user-menu">
-        //           <Linkhref="javascript:void(0);" className="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-        //              aria-expanded="false"><i className="fLinkfa-ellipsis-v"></i></a>
-        //           <div className="dropdown-menu dropdown-menu-right">
-        //             <LinkclassName="dropdown-item" href="profile.html">My Profile</a>
-        //             <LinkclassName="dropdown-item" href="general-settings.html">Settings</a>
-        //             <LinkclassName="dropdown-item" href="signin.html">Logout</a>
-        //           </div>
-        //         </div>
-        //     </div>
 
 
 
         <>
 
             <header className={`${styles.navContainer}`}>
-               
-                <div className={isOpen ? `${styles.logoContainer}` : `${styles.logoContainer1}`}>
+
+                <div className={toggleHeaderSidebar ? `${styles.logoContainer}` : `${styles.logoContainer1}`}>
                     {
-                        isOpen ?
+                        toggleHeaderSidebar ?
                             <Link href='/' className={`${styles.logo}`} >
                                 <img src='/img/logo.png' />
                             </Link>
                             :
-                            <Link href='/' className={`${styles.logo1}`} >
+                            <Link href='/' className={`${styles.mobileLogo}`} >
                                 <img src='/img/favicon.png' className='img-fluid' />
                             </Link>
 
                     }
-                    <div className={isOpen ? `${styles.togleBtn}` : `${styles.togleBtn1}`} onClick={toggleClose} >
+                    <div className={toggleHeaderSidebar ? `${styles.togleBtn}` : `${styles.togleBtn1}`} onClick={toggleBtn} >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-left feather-16"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg>
                     </div>
                 </div>
                 <ul className={`${styles.nav} ${styles.userMenu}`}>
-                    <li className={`${styles.searchInput}`}>
+                    <li className={` ${styles.searchInput}`}>
                         <div className={`${styles.topSearch}`}>
                             <form className={`${styles.dropdown}`}>
-                                <div className={`${styles.searchinputs}`}>
+                                <div className={`d-none ${styles.searchinputs}`}>
                                     <input type='text' placeholder='Search' />
                                     <div className={`${styles.cancelIcon}`}>
                                         <span>
@@ -167,7 +130,7 @@ export default function Header({ openSidebar, closeSideBar, toggleClose, isOpen 
                     </li>
 
                     <li className={`${styles.store}`}>
-                        <Link href='' className={` ${styles.selectStore}`}>
+                        <Link href='' className={`d-none ${styles.selectStore}`}>
                             <span className={` ${styles.userInfo}`}>
                                 <span className={`${styles.userPic}`}>
                                     <img className='img-fluid' src='/1.png' />
@@ -181,39 +144,39 @@ export default function Header({ openSidebar, closeSideBar, toggleClose, isOpen 
                             </span>
                         </Link>
                     </li>
-                 
 
 
 
-                    <li className={`${styles.flag}`}>
+
+                    <li className={`d-none ${styles.flag}`}>
                         <Link href='#' >
                             <img src='/us.png' />
                         </Link>
                     </li>
-                    <li className={`${styles.fullscreen}`}>
+                    <li className={`${styles.fullscreen}`} onClick={toggleFullScreenMode}>
                         <Link href='#'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
                         </Link>
                     </li>
-                    <li className={`${styles.message}`}>
+                    <li className={`d-none ${styles.message}`}>
                         <Link href='#'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                         </Link>
                         <span className={`${styles.badge}`}>1</span>
                     </li>
-                    <li className={`${styles.notification}`}>
+                    <li className={` d-none ${styles.notification}`}>
                         <Link href='#'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                         </Link>
                         <span className={`${styles.badge}`}>2</span>
                     </li>
-                    <li className={`${styles.settings}`}>
+                    <li className={` d-none ${styles.settings}`}>
                         <Link href='#'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>                        </Link>
                     </li>
                     <li className={`${styles.userProfile}`}>
                         <Link href='#'>
-                            <span className={`${styles.user}`} onClick={showProfile}>
+                            <span id="profileMenu" className={`${styles.user}`} onClick={showProfile}>
                                 <span className={`${styles.userProfi}`}>
                                     <img src="/img/a.jpg" alt="" class="img-fluid" />
                                 </span>
@@ -276,7 +239,7 @@ export default function Header({ openSidebar, closeSideBar, toggleClose, isOpen 
             <header className={`d-md-block d-lg-none d-md-flex ${styles.navContainer1}`}>
                 <div className={`${styles.mobileIcon}`} onClick={openSidebar}>
                     {
-                        !closeSideBar ?
+                        mobileSidebar ?
                             <span className={`${styles.mobileIcon}`}>
                                 <span className={`${styles.firstSpan}`}></span>
                                 <span className={`${styles.secondSpan}`}></span>
@@ -294,9 +257,18 @@ export default function Header({ openSidebar, closeSideBar, toggleClose, isOpen 
                 <div className={`${styles.mobileImageContainer}`}>
                     <img src='/img/logo.png' />
                 </div>
-                <div>
-                    <BsThreeDotsVertical color='orange' size='1.7rem' />
+                <div style={{ cursor: 'pointer' }}>
+                    <BsThreeDotsVertical color='orange' size='1.7rem' onClick={showMobileScreenUserProfile} />
                 </div>
+                {
+                    closwMobileScreenUserProfile &&
+
+                    <div id="mobilrprofileMenu" className={`${styles.mobileScreenUserProfile}`}>
+                        <div>My Profile</div>
+                        <div>Settings</div>
+                        <div>Logout</div>
+                    </div>
+                }
             </header>
 
         </>

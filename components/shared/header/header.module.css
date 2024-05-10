@@ -78,7 +78,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    /* transform: rotate(180deg) !important; */
 
+}
+
+
+.togleBtn1 svg {
+    transform: rotate(180deg) !important;
 }
 
 
@@ -119,12 +125,12 @@
     line-height: 0;
 }
 
-.logo1 {
+.mobileLogo {
     display: block;
     padding: 10px 0 0;
 }
 
-.logo1 img {
+.mobileLogo img {
     width: 35px;
     height: 35px;
 }
@@ -815,6 +821,34 @@
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
+}
+
+.mobileScreenUserProfile {
+    position: absolute;
+    right: 14px;
+    top: 62px;
+    background-color: white;
+    z-index: 100;
+    width: 160px;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.05) ;
+    cursor: pointer;
+    
+}
+.mobileScreenUserProfile1{
+    display: noneF;
+}
+
+
+.mobileScreenUserProfile div {
+    color: #343a40;
+    line-height: 40px;
+    padding: 0 10px;
+    font-size: 0.8125rem;
+
+}
+.mobileScreenUserProfile div:hover{
+    cursor: pointer;
+    background-color: rgba(255, 159, 67, 0.05);
 }
 
 @media screen and (max-width: 1100px) {

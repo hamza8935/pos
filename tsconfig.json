@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/parentHeader.jsx", "components/sidebar/sidebar.jsx", "components/header/header.jsx", "app/layout.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/parentHeader.jsx", "components/shared/sidebar/sidebar.jsx", "components/shared/header/header.jsx", "app/layout.jsx", "app/page.jsx"],
   "exclude": ["node_modules"]
 }

@@ -252,7 +252,7 @@
     color: #5b6670;
 }
 
-.abc1 {
+.mobileSidebarBackground1 {
     display: block;
     height: 100%;
     width: 100%;
@@ -263,21 +263,27 @@
     left: 260px;
     /* opacity: .9; */
     transition: width 1s ease !important;
+    cursor: pointer;
 }
 
 
 
 @media screen and (max-width: 992px) {
-    .abc {
+    .mobileSidebarBackground {
         display: none;
-    } ;
+    }
+
+    ;
+
     .productsSpan1 {
         display: block !important;
     }
+
     .productsSpan {
         display: block !important;
     }
-    .sidebar1{
+
+    .sidebar1 {
         width: 260px;
     }
 
