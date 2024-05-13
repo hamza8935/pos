@@ -7,8 +7,6 @@ const initialState = {
 }
 
 
-
-
 export const counterSlice = createSlice({
 
     name: 'productsStore',
@@ -16,17 +14,11 @@ export const counterSlice = createSlice({
     reducers: {
 
         navbarToggleBtn: (state, action) => {
-            // alert('hello')
-            // if (state.onToggleHeaderSidebarClose = true) {
-            //     state.onToggleHeaderSidebarClose = false
-            // }else if (state.onToggleHeaderSidebarClose = false) {
-            //     state.onToggleHeaderSidebarClose = true
-            // }
 
             state.onToggleHeaderSidebarClose = !state.onToggleHeaderSidebarClose;
         },
         toggleMobileScreenSidebar: (state, action) => {
-            // alert('yes')
+            
             state.mobileSidebar = !state.mobileSidebar
             console.log(state.mobileSidebar);
         },
@@ -39,7 +31,7 @@ export const counterSlice = createSlice({
     },
 })
 
-// Action creators are generated for each case reducer function
+
 export const { navbarToggleBtn, toggleMobileScreenSidebar, closeMobileScreenSidebar } = counterSlice.actions
 
 export default counterSlice.reducer

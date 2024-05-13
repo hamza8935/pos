@@ -1,6 +1,5 @@
 'use client'
-import Image from "next/image";
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styles from './sidebar.module.css'
 import Link from "next/link";
 import { useSelector, useDispatch } from 'react-redux'
@@ -9,6 +8,7 @@ import { closeMobileScreenSidebar } from "@/app/redux/slice";
 export default function Sidebar() {
 
     const dispatch = useDispatch();
+
     const toggleHeaderSidebar = useSelector((state) => state.counterReducer.onToggleHeaderSidebarClose)
     const mobileSidebar = useSelector((state) => state.counterReducer.mobileSidebar)
 
@@ -18,13 +18,10 @@ export default function Sidebar() {
 
     return (
         <>
+            <div className={!mobileSidebar && `${styles.mobileSidebarBackground1}`} onClick={handleOnSidebarClick}></div>
 
 
-
-
-
-
-            <div className={mobileSidebar ? `${styles.mobileSidebarBackground}` : `${styles.mobileSidebarBackground1}`} onClick={handleOnSidebarClick}>
+            <div className={mobileSidebar && `${styles.mobileSidebarBackground}`} >
                 <div className={toggleHeaderSidebar ? `${styles.sidebar}` : `${styles.sidebar1}`}>
 
                     <div className={toggleHeaderSidebar ? `${styles.innerSidebar}` : `${styles.innerSidebar1}`}>
@@ -35,7 +32,6 @@ export default function Sidebar() {
                             <li>
                                 <Link href='/admin/products' className={toggleHeaderSidebar ? `${styles.iconStyling}` : `${styles.iconStyling1}`}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                                    {/* {toggleHeaderSidebar && <span>Products</span>} */}
                                     <span className={toggleHeaderSidebar ? `${styles.productsSpan}` : `${styles.productsSpan1}`}>Products</span>
                                 </Link>
                             </li>
